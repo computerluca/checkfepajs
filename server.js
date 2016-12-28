@@ -70,7 +70,7 @@ app.post('/file_xml',function(req,res){
        })
     }
 })
-MongoClient.connect('mongodb://prova:prova@ds127878.mlab.com:27878/filexml', (err, database) => {
+MongoClient.connect('insert_your_mongo_db_url', (err, database) => {
   if (err) return console.log(err)
   db = database
   app.listen(8081, () => {
