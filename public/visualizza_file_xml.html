@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="it">
+    <head>
+        <title>CheckFepa - Lista file xml salvati</title>
+        <meta charset="utf-8" />
+         <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
+
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <h1>Check Fepa JS => © by ComputerLucaWorld 2016</h1>
+        <h2>Lista file xml</h2>
+        <div id="buttongroup">        <button class="check" onclick="location.href='index.html'">Torna indietro</button>
+        <button class="check" onclick="select_all()">Seleziona Tutto</button>
+        <button class="check" onclick="deselect_all()">Deseleziona tutto</button>
+        <button  class="check" onclick="controlla()">Controlla Massivamente File XML</button>
+        <br/></div><div id="lista_file">
+            
+
+             </div>
+               <script src="xml2json.js"></script>
+
+                      <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+                          <script src="filesaver.js"></script>
+                          <script src="Anomalia.js"></script>
+                          <script src="FatturaXML.js"></script>
+                          <script src="ControlliAbstract.js"></script>
+                          <script src="ControlliPerDettaglio.js"></script>
+                          <script src="ControlliTesta.js"></script>
+                          <script src="ControlliQuadratura.js"></script>
+
+          <script src="XMLSaveManager.js"></script>
+          <script src="ElaborazioniManager.js"></script>
+
+        <script>
+        'use strict';
+        function check_file(file){
+            return new Promise((resolve, reject) => {
+                    XMLSaveManager.get_file_per_nome(file)
+            .then(function(response){
+               let start = new ControlliQuadratura(response.data.testo);
+               let anomalie = {file:file,anomalie:start.controlla_file()};
+               resolve(anomalie);
+            })
+            .catch(function(response){
+                reject(response);
+            })
+});
+        }
+        
+        function show_notification(message){
+            if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var notification = new Notification(message);
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        var notification = new Notification("Hai abilitato le notifiche Push per il sito CheckFepa");
+      }
+    });
+  }
+        }
+        
+        function controlla(array_file){
+            /*
+            check_file_massivo().then(function(response){
+                console.log(response);
+                ElaborazioniManager.crea_elaborazione({elaborazione:response})
+                .then(function(r){
+                    show_notification("Controlli di quadratura terminato con successo!");
+
+                }).catch(function(response){
+                                    show_notification("Errore nei controlli di quadratura!"+response);
+
+                })
+            })
+            .catch(function(response){
+                show_notification("Errore nei controlli di quadratura!"+response);
+            })*/
+            check_file_massivo()
+            .then(function(response){ElaborazioniManager.crea_elaborazione({elaborazione:response})})
+            .then(function(r){
+                    show_notification("Controlli di quadratura terminato con successo!");
+            })
+            .catch(function(response){
+                show_notification("Errore nei controlli di quadratura!"+response);
+            })
+            
+            
+            
+        }
+        function crea_array_promise(){
+            var provola = document.getElementsByName('file');
+            var array_promises=[];
+            for(var i=0;i<provola.length;i++){
+                if(provola[i].checked){
+                    
+                    array_promises.push(check_file(provola[i].value));
+                }
+            }
+            return array_promises;
+        }
+        function check_file_massivo(){
+            let array_promises = crea_array_promise();
+            if(array_promises.length>0){
+                show_notification("Avviata elaborazione!")
+           return Promise.all(array_promises);
+            }
+            else{
+                return Promise.reject("Errore! Nessun file selezionato")
+            }
+        }
+        function view_xslt(file_xml){
+            XMLSaveManager.get_file_per_nome(file_xml)
+            .then(function(response){
+                console.log(response.data);
+                 var blob = new Blob([response.data.testo], {type: "text/xml;charset=utf-8"});
+    saveAs(blob, response.data.nome_file+".xml");
+            });
+           
+}
+            function select_all(){
+                var provola = document.getElementsByName('file');
+                for(var i=0;i<provola.length;i++){
+                    provola[i].checked=true;
+                }
+            }
+            function deselect_all(){
+                var provola = document.getElementsByName('file');
+                for(var i=0;i<provola.length;i++){
+                    provola[i].checked=false;
+                }
+            }
+             
+    XMLSaveManager.get_lista_file()
+  .then(function (response) {
+    var lista = document.getElementById('lista_file');
+    lista.innerHTML += "<ul class='check'>";
+    for(let elemento of response.data){
+    lista.innerHTML +='<li><input type="checkbox" name="file" value='+elemento._id+'/>'+elemento.nome_file +'<button onclick="view_xslt(\''+elemento._id+'\')">Scarica Fattura Elettronica</button></li>';
+    }
+    lista.innerHTML +="</ul>";
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+            
+        </script>
+    </body>
+</html>

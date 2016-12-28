@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <title>Check Fepa</title>
+  <meta charset="utf-8" />
+  <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+
+<body>
+  
+  <div id="wrapper">
+    <h1>Check Fepa JS => © by ComputerLucaWorld 2016 </h1>
+    <div id="left">
+      <form name="esempio" serialize>
+        <label for="file_xml">
+    <textarea name="file_xml" id="file_xml"></textarea>
+  </label>
+      </form>
+    </div>
+    <div id="right">
+      <h2>Lista Anomalie</h2>
+      <div id="anomalie">
+      </div>
+      
+    </div>
+    <button class="check" onclick="controlla_file()" serialize>Controlla file xml</button>
+    <button class="check" onclick="reset()">Reset</button>
+    <button class="check" onclick="salva()">Salva</button>
+    <button class="check" onclick="view_xslt(localStorage.getItem('form.esempio'))">Visualizza Fattura Elettronica</button>
+    <button class="check" onclick="window.location.href='visualizza_file_xml.html'">Visualizza lista file xml salvati</button>
+    <button class="check" onclick="window.location.href='elaborazioni.html'">Visualizza Elaborazioni Massive</button>
+    <br>
+    <br>
+
+
+  </div>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="xml2json.js"></script>
+  <script src="filesaver.js"></script>
+  <script src="XMLSaveManager.js"></script>
+  <script src="FatturaXML.js"></script>
+  <script src="ControlliAbstract.js"></script>
+  <script src="ControlliTesta.js"></script>
+  <script src="ControlliPerDettaglio.js"></script>
+  <script src="Anomalia.js"></script>
+  <script src="ControlliQuadratura.js"></script>
+  <script src="main.js"></script>
+  <script src="serialize.js"></script>
+  
+</body>
+
+</html>
+ 

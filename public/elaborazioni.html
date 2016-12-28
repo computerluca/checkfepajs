@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="it">
+    <head>
+        <title>CheckFepa => Elaborazioni Massive</title>
+          <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
+
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+                <h1>Check Fepa JS => © by ComputerLucaWorld 2016</h1>
+
+        <h2>Elaborazioni Massive </h2>
+                            <button class="check" onclick="location.href='index.html'">Torna indietro</button>
+
+        <div id="lista_elaborazioni">
+                
+        </div>
+        <div style="height:200px"></div>
+        <div id="elaborazione_selezionata">
+            Elaborazione selezionata
+        </div>
+        <script src="https://unpkg.com/axios@0.15.3/dist/axios.min.js"></script>
+        <script src="ElaborazioniManager.js"></script>
+        <script>
+            ElaborazioniManager.visualizza_elaborazioni().then(function(response){
+                var data = response.data;
+                var lista_elab = document.getElementById("lista_elaborazioni");
+                lista_elab.innerHTML ="<ul class='check'>";
+                for(let i=0;i<data.length;i++){
+                    lista_elab.innerHTML +="<li onclick='visualizza_elaborazione(\""+data[i]._id+"\")'> Elaborazione numero "+response.data[i]._id+" del "+response.data[i].data_ora+"</li>";
+                
+                    
+                }
+                lista_elab.innerHTML+="</ul>";
+            })
+            function visualizza_anomalie(lista){
+                var lista_anomalie = document.getElementById('elaborazione_selezionata');
+                lista_anomalie.innerHTML="<ul>";
+                for(var i=0;i<lista.length;i++){
+                    lista_anomalie.innerHTML+="<li>"+lista[i].file+" "+lista[i].anomalia+"</li>";
+                }
+                lista_anomalie.innerHTML+="</ul>"
+                
+            }
+            function visualizza_elaborazione(id){
+                ElaborazioniManager.visualizza_elaborazione(id).then(function(
+                    response){
+                        var risposta = response.data.elaborazione;
+                        var da_visualizzare = [];
+                        for(var i=0;i<risposta.length;i++){
+                            for(var y =0;y<risposta[i].anomalie.length;y++){
+                                var anomalia = risposta[i].anomalie[y].hasOwnProperty('blocking')?risposta[i].anomalie[y].blocking:risposta[i].anomalie[y].error;
+                                da_visualizzare.push({file:risposta[i].file,anomalia:anomalia})
+                            }
+                            
+                        }
+                        console.log(da_visualizzare);
+                        visualizza_anomalie(da_visualizzare);
+                    })
+            }
+            
+        </script>
+    </body>
+</html>

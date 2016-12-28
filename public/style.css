@@ -1,0 +1,102 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+body{
+    font-family: 'Cormorant Garamond', serif;
+    text-align:center;
+}
+#wrapper{
+    border:2px solid green;
+  overflow: auto;
+  zoom: 1;
+
+}
+button.check{
+    background-color:grey;
+    color:white;
+    border:2px solid green;
+    border-radius:20px;
+    width:100px;
+    height:75px;
+    float:left;
+    margin-right:10px;
+}
+#file_xml{
+    border:2px solid grey;
+    clear:both;
+    width:350px;
+    height:410px;
+}
+#left{
+    float:left;
+    width:40%;
+}
+#right{
+    float:right;
+    border:2px solid grey;
+    width:350px;
+    height:400px;
+}
+#right ul{
+    
+    text-align:left;
+    list-style-type:none;
+    display:inline-block;
+}
+
+ul.check li:hover{
+    background-color:grey;
+    color:white;
+}
+h1{
+    text-align:center;
+    font-size:20px;
+}
+a{
+    text-decoration:none;
+}
